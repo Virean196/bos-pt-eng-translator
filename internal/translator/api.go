@@ -38,12 +38,12 @@ type Response struct {
 	} `json:"matches"`
 }
 
-func GetTranslation(input string) (string, error) {
+func GetTranslation(input string, langPair string) (string, error) {
 	var response Response
 	if input == "" {
 		return "", fmt.Errorf("No input selected, usage: bos <phrase>")
 	}
-	request := fmt.Sprintf("https://api.mymemory.translated.net/get?q=%s&langpair=bs-BA|en-US", url.QueryEscape(input))
+	request := fmt.Sprintf("https://api.mymemory.translated.net/get?q=%s&langpair=%s", url.QueryEscape(input), langPair)
 	resp, err := http.Get(request)
 	if err != nil {
 		return "", err

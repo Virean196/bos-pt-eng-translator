@@ -27,14 +27,14 @@ func (s *DB) GetPhrase(input string) (string, error) {
 	return translation, nil
 }
 
-func (s *DB) CreatePhrase(phrase string) (string, error) {
-	translation, err := translator.GetTranslation(phrase)
+func (s *DB) CreatePhrase(phrase string, langPair string) (string, error) {
+	translation, err := translator.GetTranslation(phrase, langPair)
 	if err != nil {
 		return "", err
 	}
 	_, err = s.db.Exec(
-		"INSERT INTO phrases (input, translation) VALUES (?, ?)",
-		phrase, translation,
+		"INSERT INTO phrases (input, translation, langPair) VALUES (?, ?, ?)",
+		phrase, translation, langPair,
 	)
 	if err != nil {
 		return "", fmt.Errorf("Could not execute query: %w", err)
