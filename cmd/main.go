@@ -25,9 +25,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Unable to open SQL connection: %s", err)
 	}
-	if db != nil {
-		log.Print("Connection sucessful!")
-	}
 
 	// Check ARGS for translator
 	if len(os.Args) < 2 {
@@ -36,12 +33,12 @@ func main() {
 	phrase := os.Args[1]
 	translation, err := db.GetPhrase(phrase)
 	if translation == "" {
-		err = db.CreatePhrase(phrase)
+		translation, err = db.CreatePhrase(phrase)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Entry created!")
+		fmt.Printf("Translation: %s", translation)
 	} else {
-		fmt.Print(translation)
+		fmt.Printf("Translation: %s", translation)
 	}
 }

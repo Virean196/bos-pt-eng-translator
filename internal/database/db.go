@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"fmt"
+
+	"github.com/Virean196/bos-pt-eng-translator/internal/translator"
 )
 
 type DB struct {
@@ -25,14 +27,17 @@ func (s *DB) GetPhrase(input string) (string, error) {
 	return translation, nil
 }
 
-func (s *DB) CreatePhrase(phrase string) error {
-	var translation = fmt.Sprintf("%s.translated", phrase)
-	_, err := s.db.Exec(
+func (s *DB) CreatePhrase(phrase string) (string, error) {
+	translation, err := translator.GetTranslation(phrase)
+	if err != nil {
+		return "", err
+	}
+	_, err = s.db.Exec(
 		"INSERT INTO phrases (input, translation) VALUES (?, ?)",
 		phrase, translation,
 	)
 	if err != nil {
-		return fmt.Errorf("Could not execute query: %w", err)
+		return "", fmt.Errorf("Could not execute query: %w", err)
 	}
-	return nil
+	return translation, nil
 }
