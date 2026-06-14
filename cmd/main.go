@@ -48,7 +48,7 @@ func main() {
 		log.Fatal("usage: bos <phrase> or bos -help")
 	}
 	phrase := os.Args[1]
-	if phrase == "-help" {
+	if phrase == "--help" {
 		fmt.Printf("- Usage: bos <phrase> <optional: language pair>\n- Available language pairs: en (EN:BA), ba (BA:EN), pt (PT:BA)\n- Language pair defaults to Bosnian to English")
 		os.Exit(1)
 	}
